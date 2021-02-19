@@ -7,8 +7,9 @@ const {
     operatorChar,
     validateAugmentedOperator
 } = require("./util");
-
-// code for tokenizing
+const {integerRegex, doubleRegex} = require('./Regex');
+const { isKeyword } = require("./RegexUtil");
+// code for word breaking
 exports.lexer = (input) => {
     // input.split(/[\s,;\n()]+/).map(item=>{
     //     console.log(item)
@@ -101,5 +102,28 @@ exports.lexer = (input) => {
     }
 
     var filteredToken = tokens.filter(token => token !== '')
-    console.log(filteredToken,filteredToken.length)
+    // console.log(filteredToken,filteredToken.length)
+    tokenization(filteredToken)
+}
+
+// Code for tokenization
+const tokensObjArr = []
+const tokenization = (tokensArr) => {
+    tokensArr.forEach(token => {
+        if(!isNaN(token))
+        {
+            if(integerRegex.test(token))
+                tokensObjArr.push({classPart:"Integet",value:token,LineNo:0})
+            if(doubleRegex.test(token))
+                tokensObjArr.push({classPart:"Double",value:token,LineNo:0})
+        } 
+        else {
+            if(isKeyword(token,0))
+                tokensObjArr.push(isKeyword(token,0))
+            else {
+                
+            }
+        }
+    });
+    console.log(tokensObjArr)
 }
