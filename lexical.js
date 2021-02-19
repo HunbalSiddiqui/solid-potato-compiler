@@ -102,32 +102,34 @@ exports.lexer = (input) => {
     }
 
     var filteredToken = tokens.filter(token => token !== '')
-    // console.log(filteredToken,filteredToken.length)
     tokenization(filteredToken)
 }
 
 // Code for tokenization
 const tokensObjArr = []
 const tokenization = (tokensArr) => {
+    let lineCount = 1;
     tokensArr.forEach(token => {
-        if(!isNaN(token))
+        if(token==='\n')
+            lineCount++
+        else if(!isNaN(token))
         {
             if(integerRegex.test(token))
-                tokensObjArr.push({classPart:"Integer",value:token,LineNo:0})
+                tokensObjArr.push({classPart:"Integer",value:token,LineNo:lineCount})
             if(doubleRegex.test(token))
-                tokensObjArr.push({classPart:"Double",value:token,LineNo:0})
+                tokensObjArr.push({classPart:"Double",value:token,LineNo:lineCount})
         } 
         else {
-            if(isKeyword(token,0))
-                tokensObjArr.push(isKeyword(token,0))
-            if(identifierRegex.test(token)&&!isKeyword(token,0))
-                tokensObjArr.push({classPart:"Identifier",value:token,LineNo:0})
-            if(isOperator(token,0))
-                tokensObjArr.push(isOperator(token,0))
-            if(isPunctuator(token,0))
-                tokensObjArr.push(isPunctuator(token,0))
-            if(stringRegex.test(token)&&!identifierRegex.test(token)&&!isKeyword(token,0))
-                tokensObjArr.push({classPart:"String",value:token,LineNo:0})
+            if(isKeyword(token,lineCount))
+                tokensObjArr.push(isKeyword(token,lineCount))
+            if(identifierRegex.test(token)&&!isKeyword(token,lineCount))
+                tokensObjArr.push({classPart:"Identifier",value:token,LineNo:lineCount})
+            if(isOperator(token,lineCount))
+                tokensObjArr.push(isOperator(token,lineCount))
+            if(isPunctuator(token,lineCount))
+                tokensObjArr.push(isPunctuator(token,lineCount))
+            if(stringRegex.test(token)&&!identifierRegex.test(token)&&!isKeyword(token,lineCount))
+                tokensObjArr.push({classPart:"String",value:token,LineNo:lineCount})
         }
     }); 
     console.log(tokensObjArr)

@@ -1,6 +1,4 @@
-/*abcd
-efg*/
-42.556
+c42.556
 void interface A_B_C:::abc.45abc
 let abc = "testing string"
 if_else(a<<<<b!=54+++===!!!<>a54bv
