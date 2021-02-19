@@ -1,5 +1,12 @@
-const { tokens } = require("./tokens");
-const { wordBreakerFn, validateWordBreaker } = require("./util");
+const {
+    tokens
+} = require("./tokens");
+const {
+    wordBreakerFn,
+    validateWordBreaker,
+    operatorChar,
+    validateAugmentedOperator
+} = require("./util");
 
 // code for tokenizing
 exports.lexer = (input) => {
@@ -11,23 +18,44 @@ exports.lexer = (input) => {
         const character = input[index];
         // Check if current character is a word breaker
         // If Yes
-        if(wordBreakerFn(character))
-        {
-            if(temp!=='') // to protect ''(derived because of change in line) from getting pushed.
-            {
+        if (wordBreakerFn(input[index])) {
             tokens.push(temp) // push prev word 
-            if(validateWordBreaker(character)) // validate if current char shall be pushed or not
-                tokens.push(character)
+            // check if current character is operator i.e + = ! etc
+            // If yes
+            if (operatorChar.includes(input[index])) {
+                temp = '' // empty the temp stack
+                var localTemp = input[index]; // add current oprator i.e =, +  etc to the localTemp to pass as param
+                localTemp += input[index + 1] // add the preceeding operator in the localTemp
+                // Validate if the current compound localTemp is augmented or not
+                // If yes i.e augmented, than push the compound operator as single token and increment the value of index
+                if (validateAugmentedOperator(localTemp)) {
+                    temp += input[index] // add current op
+                    temp += input[index + 1] // add preceeding op
+                    index = index + 1 // increment the value of index
+                    tokens.push(temp) // push in tokens arr.
+                }
+                // If not augmented, than push the single character to tokens arr.
+                else if (validateWordBreaker(input[index])) // validate if current char shall be pushed or not{
+                {
+                    tokens.push(input[index])
+                }
             }
+            // If not operator, may be ( , ' ) [ etc
+            else if (validateWordBreaker(input[index])) // validate if current char shall be pushed or not{
+                {
+                    tokens.push(input[index])
+                }
             temp = '' // empty the temp stack
         }
         // If No
         else
-        temp+=character
+            temp += input[index]
     }
-    if(temp !== '')// to push remaining last character/characters
+    if (temp !== '') // to push remaining last character/characters
     {
         tokens.push(temp)
     }
-    console.log(tokens)
+
+    var filteredToken = tokens.filter(token => token !== '')
+    console.log(filteredToken, filteredToken.length)
 }
