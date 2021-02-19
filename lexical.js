@@ -19,6 +19,7 @@ exports.lexer = (input) => {
         // If Yes
         if (wordBreakerFn(input[index])) {
             tokens.push(temp) // push prev word 
+            temp = ''
             // check if current and preceeding characters is farw slash i.e /
             if('/'===input[index]&&'/'===input[index+1] )
             {
@@ -40,11 +41,29 @@ exports.lexer = (input) => {
                 while(input[localIndex]!=='*'&&input[localIndex+1]!=='/')
                 {
                     // code will keep on running
-                    console.log("input[localIndex]",input[localIndex])
                     localIndex++;
                 }
                 // multiline comments finish
                 index = localIndex+2 // update index value
+            }
+            // check if current character is " than find next ", than push it in the tokens arr as single token
+            if('"'===input[index])
+            {
+                console.log('"'===input[index])
+                temp+=input[index] // set " in temp
+                console.log("Temp",temp)
+                let localIndex = index+1
+                    while(input[localIndex]!=='"')
+                    {
+                        temp+=input[localIndex]
+                        localIndex++
+                        if(localIndex>=input.length)
+                        break;
+                    }
+                temp+= input[localIndex] // pushing last " in temp
+                tokens.push(temp)
+                index=localIndex
+                temp = ''
             }
             // check if current character is operator i.e + = ! etc
             // If yes
@@ -80,6 +99,7 @@ exports.lexer = (input) => {
     if (temp !== '') // to push remaining last character/characters
     {
         tokens.push(temp)
+        temp = ''
     }
 
     var filteredToken = tokens.filter(token => token !== '')
