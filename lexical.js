@@ -49,15 +49,13 @@ exports.lexer = (input) => {
             // check if current character is " than find next ", than push it in the tokens arr as single token
             if('"'===input[index])
             {
-                console.log('"'===input[index])
                 temp+=input[index] // set " in temp
-                console.log("Temp",temp)
-                let localIndex = index+1
-                    while(input[localIndex]!=='"')
+                let localIndex = index+1 // incrementing the local index
+                    while(input[localIndex]!=='"') // run loop till next " is found 
                     {
-                        temp+=input[localIndex]
+                        temp+=input[localIndex] // add in temp
                         localIndex++
-                        if(localIndex>=input.length)
+                        if(localIndex===input.length-1) // if next " is not found than terminate the program when last character is read.
                         break;
                     }
                 temp+= input[localIndex] // pushing last " in temp
