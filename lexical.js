@@ -7,8 +7,17 @@ const {
     operatorChar,
     validateAugmentedOperator
 } = require("./util");
-const {integerRegex, doubleRegex, identifierRegex, stringRegex} = require('./Regex');
-const { isKeyword, isOperator, isPunctuator } = require("./RegexUtil");
+const {
+    integerRegex,
+    doubleRegex,
+    identifierRegex,
+    stringRegex
+} = require('./Regex');
+const {
+    isKeyword,
+    isOperator,
+    isPunctuator
+} = require("./RegexUtil");
 // code for word breaking
 exports.lexer = (input) => {
     // input.split(/[\s,;\n()]+/).map(item=>{
@@ -22,12 +31,10 @@ exports.lexer = (input) => {
             tokens.push(temp) // push prev word 
             temp = ''
             // check if current and preceeding characters is farw slash i.e /
-            if('/'===input[index]&&'/'===input[index+1] )
-            {
+            if ('/' === input[index] && '/' === input[index + 1]) {
                 // Single line Comment should occur
-                let localIndex=index
-                while(input[localIndex]!=='\n')
-                {
+                let localIndex = index
+                while (input[localIndex] !== '\n') {
                     // Line change will occur
                     localIndex++;
                 }
@@ -35,33 +42,30 @@ exports.lexer = (input) => {
                 index = localIndex // update index value
             }
             // check if current character is / and preceeding is *, than multiline comments should occur
-            if('/'===input[index]&&'*'===input[index+1])
-            {
+            if ('/' === input[index] && '*' === input[index + 1]) {
                 // Multiline line Comment should occur
-                let localIndex=index+2
-                while(input[localIndex]!=='*'&&input[localIndex+1]!=='/')
-                {
+                let localIndex = index + 2
+                while (input[localIndex] !== '*' && input[localIndex + 1] !== '/') {
                     // code will keep on running
                     localIndex++;
                 }
                 // multiline comments finish
-                index = localIndex+2 // update index value
+                index = localIndex + 2 // update index value
             }
             // check if current character is " than find next ", than push it in the tokens arr as single token
-            if('"'===input[index])
-            {
-                temp+=input[index] // set " in temp
-                let localIndex = index+1 // incrementing the local index
-                    while(input[localIndex]!=='"') // run loop till next " is found 
-                    {
-                        temp+=input[localIndex] // add in temp
-                        localIndex++
-                        if(localIndex===input.length-1) // if next " is not found than terminate the program when last character is read.
+            if ('"' === input[index]) {
+                temp += input[index] // set " in temp
+                let localIndex = index + 1 // incrementing the local index
+                while (input[localIndex] !== '"') // run loop till next " is found 
+                {
+                    temp += input[localIndex] // add in temp
+                    localIndex++
+                    if (localIndex === input.length - 1) // if next " is not found than terminate the program when last character is read.
                         break;
-                    }
-                temp+= input[localIndex] // pushing last " in temp
+                }
+                temp += input[localIndex] // pushing last " in temp
                 tokens.push(temp)
-                index=localIndex
+                index = localIndex
                 temp = ''
             }
             // check if current character is operator i.e + = ! etc
@@ -86,9 +90,9 @@ exports.lexer = (input) => {
             }
             // If not operator, may be ( , ' ) [ etc
             else if (validateWordBreaker(input[index])) // validate if current char shall be pushed or not{
-                {
-                    tokens.push(input[index])
-                }
+            {
+                tokens.push(input[index])
+            }
             temp = '' // empty the temp stack
         }
         // If No
@@ -107,30 +111,48 @@ exports.lexer = (input) => {
 
 // Code for tokenization
 const tokensObjArr = []
+const errObjArr = []
 const tokenization = (tokensArr) => {
+    console.log(tokensArr)
     let lineCount = 1;
     tokensArr.forEach(token => {
-        if(token==='\n')
+        if (token === '\n')
             lineCount++
-        else if(!isNaN(token))
-        {
-            if(integerRegex.test(token))
-                tokensObjArr.push({classPart:"Integer",value:token,LineNo:lineCount})
-            if(doubleRegex.test(token))
-                tokensObjArr.push({classPart:"Double",value:token,LineNo:lineCount})
-        } 
-        else {
-            if(isKeyword(token,lineCount))
-                tokensObjArr.push(isKeyword(token,lineCount))
-            if(identifierRegex.test(token)&&!isKeyword(token,lineCount))
-                tokensObjArr.push({classPart:"Identifier",value:token,LineNo:lineCount})
-            if(isOperator(token,lineCount))
-                tokensObjArr.push(isOperator(token,lineCount))
-            if(isPunctuator(token,lineCount))
-                tokensObjArr.push(isPunctuator(token,lineCount))
-            if(stringRegex.test(token)&&!identifierRegex.test(token)&&!isKeyword(token,lineCount))
-                tokensObjArr.push({classPart:"String",value:token,LineNo:lineCount})
+        else if (!isNaN(token)) {
+            if (integerRegex.test(token))
+                tokensObjArr.push({
+                    classPart: "Integer",
+                    value: token,
+                    LineNo: lineCount
+                })
+            if (doubleRegex.test(token))
+                tokensObjArr.push({
+                    classPart: "Double",
+                    value: token,
+                    LineNo: lineCount
+                })
+        } else {
+            if (isKeyword(token, lineCount))
+                tokensObjArr.push(isKeyword(token, lineCount))
+            if (identifierRegex.test(token) && !isKeyword(token, lineCount))
+                tokensObjArr.push({
+                    classPart: "Identifier",
+                    value: token,
+                    LineNo: lineCount
+                })
+            if (isOperator(token, lineCount))
+                tokensObjArr.push(isOperator(token, lineCount))
+            if (isPunctuator(token, lineCount))
+                tokensObjArr.push(isPunctuator(token, lineCount))
+            if (stringRegex.test(token) && !identifierRegex.test(token) && !isKeyword(token, lineCount))
+                tokensObjArr.push({
+                    classPart: "String",
+                    value: token,
+                    LineNo: lineCount
+                })
+            if (!isKeyword(tokensArr, lineCount) && !identifierRegex.test(token) && !isOperator(token, lineCount) && !isPunctuator(token, lineCount)&&!stringRegex.test(token))
+                errObjArr.push({classPart:"LexicalError",value:token,LineNo:lineCount})
         }
-    }); 
-    console.log(tokensObjArr)
+    });
+    console.log(tokensObjArr,errObjArr)
 }

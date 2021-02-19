@@ -204,6 +204,14 @@ exports.punctuatorDictionary = [{
         word: ')'
     },
     {
+        class: "Punctuator",
+        word: '&'
+    },
+    {
+        class: "Punctuator",
+        word: '|'
+    },
+    {
         class: "bracketops",
         word: '{'
     },
