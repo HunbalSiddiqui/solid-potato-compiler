@@ -32,6 +32,20 @@ exports.lexer = (input) => {
                 //Line change occured
                 index = localIndex // update index value
             }
+            // check if current character is / and preceeding is *, than multiline comments should occur
+            if('/'===input[index]&&'*'===input[index+1])
+            {
+                // Multiline line Comment should occur
+                let localIndex=index+2
+                while(input[localIndex]!=='*'&&input[localIndex+1]!=='/')
+                {
+                    // code will keep on running
+                    console.log("input[localIndex]",input[localIndex])
+                    localIndex++;
+                }
+                // multiline comments finish
+                index = localIndex+2 // update index value
+            }
             // check if current character is operator i.e + = ! etc
             // If yes
             if (operatorChar.includes(input[index])) {
