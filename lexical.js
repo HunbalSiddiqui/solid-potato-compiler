@@ -15,11 +15,23 @@ exports.lexer = (input) => {
     // })
     let temp = '' // temp variable
     for (let index = 0; index < input.length; index++) {
-        const character = input[index];
         // Check if current character is a word breaker
         // If Yes
         if (wordBreakerFn(input[index])) {
             tokens.push(temp) // push prev word 
+            // check if current and preceeding characters is farw slash i.e /
+            if('/'===input[index]&&'/'===input[index+1] )
+            {
+                // Single line Comment should occur
+                let localIndex=index
+                while(input[localIndex]!=='\n')
+                {
+                    // Line change will occur
+                    localIndex++;
+                }
+                //Line change occured
+                index = localIndex // update index value
+            }
             // check if current character is operator i.e + = ! etc
             // If yes
             if (operatorChar.includes(input[index])) {
@@ -57,5 +69,5 @@ exports.lexer = (input) => {
     }
 
     var filteredToken = tokens.filter(token => token !== '')
-    console.log(filteredToken, filteredToken.length)
+    console.log(filteredToken,filteredToken.length)
 }

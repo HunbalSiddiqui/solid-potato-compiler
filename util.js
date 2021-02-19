@@ -7,7 +7,6 @@ const dualFuncChar = ['[', ']', '(', ')', '+', '-', '/', '*', '%', '{', '}', '!'
 const augmentedTokenChar = ['++','==','--','+=','>=','<=','!=']
 
 exports.operatorChar = ['+','-','=','>','<','!']
-console.log(wordBreakers.length)
 // Validate WordBreakers
 exports.wordBreakerFn = (character) =>{
     if(wordBreakers.includes(character))
@@ -26,7 +25,6 @@ exports.validateWordBreaker = (breaker) => {
 
 // Validate if current operator is augmented or not 
 exports.validateAugmentedOperator = (currentOperators) => {
-    console.log("currentOperators",currentOperators)
     if(augmentedTokenChar.includes(currentOperators))
     {
         return true
