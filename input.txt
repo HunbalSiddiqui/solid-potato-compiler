@@ -2,6 +2,7 @@
 efg*/
 42.556
 void interface A_B_C:::abc.45abc
+let abc = "testing string"
 if_else(a<<<<b!=54+++===!!!<>a54bv
 char ch="vsdfds\\a+== vdsds-=ds\*\"fsdsas
 //String s=' '++'++'\n'abc'\\r'+'43-2'3

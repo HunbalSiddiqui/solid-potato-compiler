@@ -7,8 +7,8 @@ const {
     operatorChar,
     validateAugmentedOperator
 } = require("./util");
-const {integerRegex, doubleRegex} = require('./Regex');
-const { isKeyword } = require("./RegexUtil");
+const {integerRegex, doubleRegex, identifierRegex, stringRegex} = require('./Regex');
+const { isKeyword, isOperator, isPunctuator } = require("./RegexUtil");
 // code for word breaking
 exports.lexer = (input) => {
     // input.split(/[\s,;\n()]+/).map(item=>{
@@ -113,17 +113,22 @@ const tokenization = (tokensArr) => {
         if(!isNaN(token))
         {
             if(integerRegex.test(token))
-                tokensObjArr.push({classPart:"Integet",value:token,LineNo:0})
+                tokensObjArr.push({classPart:"Integer",value:token,LineNo:0})
             if(doubleRegex.test(token))
                 tokensObjArr.push({classPart:"Double",value:token,LineNo:0})
         } 
         else {
             if(isKeyword(token,0))
                 tokensObjArr.push(isKeyword(token,0))
-            else {
-                
-            }
+            if(identifierRegex.test(token)&&!isKeyword(token,0))
+                tokensObjArr.push({classPart:"Identifier",value:token,LineNo:0})
+            if(isOperator(token,0))
+                tokensObjArr.push(isOperator(token,0))
+            if(isPunctuator(token,0))
+                tokensObjArr.push(isPunctuator(token,0))
+            if(stringRegex.test(token)&&!identifierRegex.test(token)&&!isKeyword(token,0))
+                tokensObjArr.push({classPart:"String",value:token,LineNo:0})
         }
-    });
+    }); 
     console.log(tokensObjArr)
 }

@@ -1,9 +1,10 @@
 //DEFINING RE's.
-exports.identifierRegex = /^[A-Za-z]+$/;
+exports.identifierRegex = /^[A-Za-z_]+$/;
+// exports.stringRegex = /^([_|@|(a-zA-Z)][(a-zA-Z)(0-9)])|([A-Za-z][0-9])$/;
+exports.stringRegex = /^[""](\W|\w)*[""]$/;
 exports.integerRegex = /^[-+]?\d+$/;
 exports.doubleRegex = /^[+-]?\d*[.]{1}\d+$/
-exports.charregex = ""
-exports.stringregex = /^"*[A-Za-z]*"+$/
+// exports.charregex = ""
 exports.newLineReg = /\r?\n|\r/;
 
 exports.keywordDictionary = [{
@@ -111,3 +112,138 @@ exports.keywordDictionary = [{
         word: 'continue'
     }
 ]
+
+exports.operatorDictionary = [{
+        class: "Arithmatic Op",
+        word: '+'
+    },
+    {
+        class: "Arithmatic Op",
+        word: '-'
+    },
+    {
+        class: "Arithmatic Op",
+        word: '*'
+    },
+    {
+        class: "Arithmatic Op",
+        word: '/'
+    },
+    {
+        class: "Inc/Dec",
+        word: '++'
+    },
+    {
+        class: "Inc/Dec",
+        word: '--'
+    },
+    {
+        class: "AdditionAssignment/SubtractionAssignment",
+        word: '+='
+    },
+    {
+        class: "AdditionAssignment/SubtractionAssignment",
+        word: '-='
+    },
+    {
+        class: "MultiplyAssignment",
+        word: '*='
+    },
+    {
+        class: "ComparisonOperators",
+        word: '=='
+    },
+    {
+        class: "ComparisonOperators",
+        word: '==='
+    },
+    {
+        class: "Assignment Operator",
+        word: '='
+    },
+    {
+        class: "Comparison Operator",
+        word: '>'
+    },
+    {
+        class: "Comparison Operator",
+        word: '<'
+    },
+    {
+        class: "Comparison Operator",
+        word: '=<'
+    },
+    {
+        class: "Comparison Operator",
+        word: '>='
+    },
+    {
+        class: "And Operator",
+        word: '&&'
+    },
+    {
+        class: "Not Operator",
+        word: '!'
+    },
+    {
+        class: "Or Operator",
+        word: '||'
+    },
+    {
+        class: "Not Equals To Operator",
+        word: '!='
+    }
+]
+
+exports.punctuatorDictionary = [{
+        class: "bracketops",
+        word: '('
+    },
+    {
+        class: "bracketops",
+        word: ')'
+    },
+    {
+        class: "bracketops",
+        word: '{'
+    },
+    {
+        class: "bracketops",
+        word: '}'
+    },
+    {
+        class: "bracketops",
+        word: ']'
+    },
+    {
+        class: "bracketops",
+        word: '['
+    },
+    {
+        class: "Punctuator",
+        word: ':'
+    },
+
+    {
+        class: "Punctuator",
+        word: '@'
+    },
+
+    {
+        class: "Punctuator",
+        word: '^'
+    },
+
+    {
+        class: "Punctuator",
+        word: '#'
+    },
+
+    {
+        class: "Punctuator",
+        word: '_'
+    }
+]
+
+// const str = "vsdfds\\a+== vdsds-=ds\*\*"
+console.log(this.stringRegex.test('"asdjkjk8jkl"'))

@@ -4,9 +4,9 @@ const wordBreakers = [' ', '[', ']', '(', ')', '+', '-', '/', '*', '%', '{', '}'
 const dualFuncChar = ['[', ']', '(', ')', '+', '-', '/', '*', '%', '{', '}', '!', ',', '=', ':', '#', '@', '&', '-', '^', '`', '|', '>', '<','\\']
 // const dualFuncChar = [',', '(', ')', '-', ':', ';', '#', '@', '!', '?', '*', '=', '{', '}', '×', '÷', '^', '>', '<', '[', ']', '\\']
 
-const augmentedTokenChar = ['++','==','--','+=','>=','<=','!=']
+const augmentedTokenChar = ['++','==','--','+=','>=','<=','!=','&&','||']
 
-exports.operatorChar = ['+','-','=','>','<','!']
+exports.operatorChar = ['+','-','=','>','<','!','&','|']
 // Validate WordBreakers
 exports.wordBreakerFn = (character) =>{
     if(wordBreakers.includes(character))
