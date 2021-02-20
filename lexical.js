@@ -69,13 +69,17 @@ exports.lexer = (input) => {
             if ('"' === input[index]) {
                 temp += input[index] // set " in temp
                 let localIndex = index + 1 // incrementing the local index
-                while (input[localIndex] !== '"') // run loop till next " is found 
+                while (input[localIndex] !== '"')  // run loop till next " is found 
                 {
+                    if(input[localIndex]!=='\r'&&input[localIndex]!=='\n')
                     temp += input[localIndex] // add in temp
                     localIndex++
+                    if(input[localIndex]==='\r'||input[localIndex]==='\n')
+                        break
                     if (localIndex === input.length - 1) // if next " is not found than terminate the program when last character is read.
                         break;
                 }
+                if(input[localIndex]!=='\r'&&input[localIndex]!=='\n')
                 temp += input[localIndex] // pushing last " in temp
                 tokens.push(temp)
                 index = localIndex
@@ -126,7 +130,7 @@ exports.lexer = (input) => {
 const tokensObjArr = []
 const errObjArr = []
 const tokenization = (tokensArr) => {
-    console.log(tokensArr)
+    // console.log(tokensArr)
     let lineCount = 1;
     tokensArr.forEach(token => {
         if (token === '\n')
