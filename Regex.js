@@ -196,11 +196,11 @@ exports.operatorDictionary = [{
 ]
 
 exports.punctuatorDictionary = [{
-        class: "round braces open",
+        class: "(",
         word: '('
     },
     {
-        class: "round braces close",
+        class: ")",
         word: ')'
     },
     {
@@ -212,19 +212,19 @@ exports.punctuatorDictionary = [{
         word: '|'
     },
     {
-        class: "Curly Braces Open",
+        class: "{",
         word: '{'
     },
     {
-        class: "Curly Braces Close",
+        class: "}",
         word: '}'
     },
     {
-        class: "square braces open",
+        class: "]",
         word: ']'
     },
     {
-        class: "square braces close",
+        class: "[",
         word: '['
     },
     {
