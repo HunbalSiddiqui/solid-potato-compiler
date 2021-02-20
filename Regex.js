@@ -76,23 +76,23 @@ exports.keywordDictionary = [{
         word: 'var'
     },
     {
-        class: "condition",
+        class: "if",
         word: 'if'
     },
     {
-        class: "condition",
+        class: "else",
         word: 'else'
     },
     {
-        class: "Loop",
+        class: "while",
         word: 'while'
     },
     {
-        class: "Loop",
+        class: "for",
         word: 'for'
     },
     {
-        class: "Interfaces",
+        class: "Interface",
         word: 'interface'
     },
     {
@@ -138,23 +138,23 @@ exports.operatorDictionary = [{
         word: '--'
     },
     {
-        class: "AdditionAssignment/SubtractionAssignment",
+        class: "Assignment Operator",
         word: '+='
     },
     {
-        class: "AdditionAssignment/SubtractionAssignment",
+        class: "Assignment Operator",
         word: '-='
     },
     {
-        class: "MultiplyAssignment",
+        class: "Assignment Operator",
         word: '*='
     },
     {
-        class: "ComparisonOperators",
+        class: "Conditional Operators",
         word: '=='
     },
     {
-        class: "ComparisonOperators",
+        class: "Conditional Operators",
         word: '==='
     },
     {
@@ -162,19 +162,19 @@ exports.operatorDictionary = [{
         word: '='
     },
     {
-        class: "Comparison Operator",
+        class: "Relational Operator",
         word: '>'
     },
     {
-        class: "Comparison Operator",
+        class: "Relational Operator",
         word: '<'
     },
     {
-        class: "Comparison Operator",
+        class: "Relational Operator",
         word: '=<'
     },
     {
-        class: "Comparison Operator",
+        class: "Relational Operator",
         word: '>='
     },
     {
@@ -190,17 +190,17 @@ exports.operatorDictionary = [{
         word: '||'
     },
     {
-        class: "Not Equals To Operator",
+        class: "Conditional Operators",
         word: '!='
     }
 ]
 
 exports.punctuatorDictionary = [{
-        class: "bracketops",
+        class: "round braces open",
         word: '('
     },
     {
-        class: "bracketops",
+        class: "round braces close",
         word: ')'
     },
     {
@@ -212,19 +212,19 @@ exports.punctuatorDictionary = [{
         word: '|'
     },
     {
-        class: "bracketops",
+        class: "Curly Braces Open",
         word: '{'
     },
     {
-        class: "bracketops",
+        class: "Curly Braces Close",
         word: '}'
     },
     {
-        class: "bracketops",
+        class: "square braces open",
         word: ']'
     },
     {
-        class: "bracketops",
+        class: "square braces close",
         word: '['
     },
     {
@@ -251,10 +251,10 @@ exports.punctuatorDictionary = [{
         word: '_'
     },
     {
-        class: "Dot Punctuator",
+        class: "Dot",
         word: '.'
     }
 ]
 
 // const str = "vsdfds\\a+== vdsds-=ds\*\*"
-console.log(this.stringRegex.test('"asdjkjk8jkl"'))
+// console.log(this.stringRegex.test('"asdjkjk8jkl"'))

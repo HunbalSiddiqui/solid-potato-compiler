@@ -18,6 +18,7 @@ const {
     isOperator,
     isPunctuator
 } = require("./RegexUtil");
+const { syntaxFn } = require("./syntax");
 // code for word breaking
 exports.lexer = (input) => {
     // input.split(/[\s,;\n()]+/).map(item=>{
@@ -37,7 +38,6 @@ exports.lexer = (input) => {
                 {
                     temp+=input[localIndex]
                     localIndex++
-                    console.log("temp",temp)
                 }
                 index = localIndex
             }
@@ -171,6 +171,8 @@ const tokenization = (tokensArr) => {
                 errObjArr.push({classPart:"LexicalError",value:token,LineNo:lineCount})
         }
     });
-    console.log("TokensObject",tokensObjArr)
-    console.log("ErrorsObject",errObjArr)
+    tokensObjArr.push({classPart:"EndMarker",value:"$",LineNo:lineCount})
+    syntaxFn(tokensObjArr)
+    // console.log("TokensObject",tokensObjArr)
+    // console.log("ErrorsObject",errObjArr)
 }
