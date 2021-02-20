@@ -28,6 +28,19 @@ exports.lexer = (input) => {
         // Check if current character is a word breaker
         // If Yes
         if (wordBreakerFn(input[index])) {
+            // check if current character is ., than verify if preceeding temp is all numbers
+            if(input[index]==='.'&&!isNaN(temp))
+            {
+                temp+= input[index]
+                let localIndex = index+1
+                while(!wordBreakerFn(input[localIndex]))
+                {
+                    temp+=input[localIndex]
+                    localIndex++
+                    console.log("temp",temp)
+                }
+                index = localIndex
+            }
             tokens.push(temp) // push prev word 
             temp = ''
             // check if current and preceeding characters is farw slash i.e /
@@ -154,5 +167,6 @@ const tokenization = (tokensArr) => {
                 errObjArr.push({classPart:"LexicalError",value:token,LineNo:lineCount})
         }
     });
-    console.log(tokensObjArr,errObjArr)
+    console.log("TokensObject",tokensObjArr)
+    console.log("ErrorsObject",errObjArr)
 }
