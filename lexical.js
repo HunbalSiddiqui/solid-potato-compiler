@@ -130,11 +130,18 @@ exports.lexer = (input) => {
 const tokensObjArr = []
 const errObjArr = []
 const tokenization = (tokensArr) => {
-    // console.log(tokensArr)
+    console.log(tokensArr)
     let lineCount = 1;
     tokensArr.forEach(token => {
         if (token === '\n')
+        {
             lineCount++
+            tokensObjArr.push({
+                classPart: "\n",
+                value: token,
+                LineNo: lineCount
+            })
+        }
         else if (!isNaN(token)) {
             if (integerRegex.test(token))
                 tokensObjArr.push({
