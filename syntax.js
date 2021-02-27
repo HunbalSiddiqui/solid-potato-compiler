@@ -48,9 +48,81 @@ exports.MST = () => {
 }
 // Singleline statement
 exports.SST = () => {
-    if (this.IF_OELSE() || this.FN_ST() || this.WHILE_ST() || this.FOR_ST() || this.DEC() || this.ASSIGN_ST())
+    if (this.IF_OELSE() || this.FN_ST() || this.WHILE_ST() || this.FOR_ST() || this.DEC() || this.ASSIGN_ST() ||
+        this.CLASS_DEF())
         return true
     return false
+}
+
+exports.CLASS_DEF = () => {
+    if (this.AM_ST()) {
+        if (this.TM_ST()) {
+            if (GlobalTokensObjArr[INDEX].classPart === 'class') {
+                INDEX++;
+                if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+                    INDEX++
+                    if (this.INHERIT_ST()) {
+                        if (GlobalTokensObjArr[INDEX].classPart === '(') {
+                            INDEX++;
+                            if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                                INDEX++;
+                                while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                    INDEX++;
+                                }
+                                if (GlobalTokensObjArr[INDEX].classPart === '{') {
+                                    INDEX++;
+                                    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                        INDEX++;
+                                    }
+                                    if (this.BODY()) {
+                                        return true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+exports.AM_ST = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'public' ||
+        GlobalTokensObjArr[INDEX].classPart === 'private' ||
+        GlobalTokensObjArr[INDEX].classPart === 'protected') {
+        INDEX++;
+        return true
+    }
+    return false
+}
+
+exports.TM_ST = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'static' ||
+        GlobalTokensObjArr[INDEX].classPart === 'abstract' ||
+        GlobalTokensObjArr[INDEX].classPart === 'final') {
+        INDEX++;
+        return true
+    } else if (GlobalTokensObjArr[INDEX].classPart === 'class') {
+        // INDEX++;
+        return true
+    } else
+        return false
+}
+
+exports.INHERIT_ST = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'extends') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+            INDEX++;
+            if (this.INHERIT_ST()) {
+                return true
+            }
+        }
+    } else if (GlobalTokensObjArr[INDEX].classPart === '(')
+        return true
+    else
+        return false
 }
 
 exports.IF_OELSE = () => {

@@ -46,6 +46,16 @@ exports.keywordDictionary = [{
     {
         class: "static",
         word: 'static'
+    }
+    ,
+    {
+        class: "final",
+        word: 'final'
+    }
+    ,
+    {
+        class: "abstract",
+        word: 'abstract'
     },
     {
         class: "void",
