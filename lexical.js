@@ -142,7 +142,7 @@ const tokenization = (tokensArr) => {
                 LineNo: lineCount
             })
         }
-        else if (!isNaN(token)) {
+        else if (!isNaN(token)) { // if number
             if (integerRegex.test(token))
                 tokensObjArr.push({
                     classPart: "Integer",

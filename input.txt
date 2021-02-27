@@ -1,1 +1,2 @@
-string a = u;
+string a=b,u,g
+int a=5;

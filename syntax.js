@@ -12,7 +12,7 @@ exports.syntaxFn = (tokensObjArr) => {
 }
 // Body 
 exports.BODY = () => {
-    if(GlobalTokensObjArr[INDEX].classPart === 'EndMarker')
+    if (GlobalTokensObjArr[INDEX].classPart === 'EndMarker')
         return true
     else if (this.MST()) {
         return true
@@ -60,21 +60,48 @@ exports.FOR_ST = () => {
 }
 
 exports.DEC = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'DataType') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+            INDEX++;
+            if (this.LIST()) {
+                return true
+            }
+        }
+    }
+}
 
+exports.LIST = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === '\n') {
+        INDEX++;
+        return true
+    } else if (GlobalTokensObjArr[INDEX].classPart === 'Assignment Operator') {
+        INDEX++;
+        if (this.COI()) {
+            if (this.LIST()) {
+                return true
+            }
+        }
+    } else if (GlobalTokensObjArr[INDEX].classPart === ',') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+            INDEX++;
+            if (this.LIST()) {
+                return true
+            }
+        }
+    } else
+        return false
 }
 
 exports.ASSIGN_ST = () => {
     if (GlobalTokensObjArr[INDEX].classPart === 'DataType') {
-        console.log("GlobalTokensObjArr[INDEX]", GlobalTokensObjArr[INDEX])
         INDEX++;
-        console.log("GlobalTokensObjArr[INDEX]", GlobalTokensObjArr[INDEX])
         if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
             INDEX++;
-            console.log("GlobalTokensObjArr[INDEX]", GlobalTokensObjArr[INDEX])
 
             if (GlobalTokensObjArr[INDEX].classPart === 'Assignment Operator') {
                 INDEX++;
-                console.log("GlobalTokensObjArr[INDEX]", GlobalTokensObjArr[INDEX])
                 if (this.COI()) {
                     return true
                 }
@@ -88,7 +115,6 @@ exports.ASSIGN_ST = () => {
 exports.COI = () => {
     if (GlobalTokensObjArr[INDEX].classPart === 'Identifier' || this.CONST()) {
         INDEX++;
-        console.log("GlobalTokensObjArr[INDEX]", GlobalTokensObjArr[INDEX])
         return true
     }
 }

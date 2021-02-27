@@ -253,6 +253,10 @@ exports.punctuatorDictionary = [{
     {
         class: "Dot",
         word: '.'
+    },
+    {
+        class: ",",
+        word: ','
     }
 ]
 
