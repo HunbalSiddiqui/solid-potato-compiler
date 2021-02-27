@@ -53,7 +53,7 @@ exports.SST = () => {
         return true
     return false
 }
-
+// Class def
 exports.CLASS_DEF = () => {
     if (this.AM_ST()) {
         if (this.TM_ST()) {
@@ -224,7 +224,73 @@ exports.ID_CONST = () => {
 
 
 exports.FN_ST = () => {
+    if (this.AM_ST()) {
+        if (this.TM_ST()) {
+            if (this.RETURN_TYPE()) {
+                if (GlobalTokensObjArr[INDEX].classPart === 'fn' || GlobalTokensObjArr[INDEX].classPart === 'function') {
+                    INDEX++;
+                    if (GlobalTokensObjArr[INDEX].classPart === '(') {
+                        INDEX++;
+                        if (this.PARAMS()) {
+                            INDEX++;
+                            while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                INDEX++;
+                            }
+                            while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                INDEX++;
+                            }
+                            if (GlobalTokensObjArr[INDEX].classPart === '{') {
+                                INDEX++;
+                                while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                    INDEX++;
+                                }
+                                if (this.BODY()) {
+                                    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                        INDEX++;
+                                    }
+                                    if (this.RETURN_TYPE()) {
+                                        return true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else
+        return false
+}
 
+exports.PARAMS = () => {
+    if (this.ID_CONST()) {
+        if (this.MULTI_PARAMS()) {
+            if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                return true
+            }
+        }
+    } else
+        return false
+}
+
+exports.MULTI_PARAMS = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === ',') {
+        INDEX++;
+        if (this.PARAMS()) {
+            return true
+        }
+    } else if (GlobalTokensObjArr[INDEX].classPart === ')') {
+        return true
+    } else
+        return false
+}
+
+exports.RETURN_TYPE = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'void' || GlobalTokensObjArr[INDEX].classPart === 'DataType') {
+        INDEX++;
+        return true
+    } else
+        return false
 }
 
 exports.WHILE_ST = () => {
@@ -296,7 +362,7 @@ exports.COI = () => {
 }
 
 exports.CONST = () => {
-    if (GlobalTokensObjArr[INDEX].classPart === 'Integer' || GlobalTokensObjArr.classPart === 'Double' || GlobalTokensObjArr.classPart === 'String')
+    if (GlobalTokensObjArr[INDEX].classPart === 'Integer' || GlobalTokensObjArr[INDEX].classPart === 'Double' || GlobalTokensObjArr[INDEX].classPart === 'String')
         return true
     else
         return false
