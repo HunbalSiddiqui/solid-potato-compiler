@@ -72,7 +72,7 @@ exports.keywordDictionary = [{
         word: 'extends'
     },
     {
-        class: "Data Type",
+        class: "DataType",
         word: 'var'
     },
     {
