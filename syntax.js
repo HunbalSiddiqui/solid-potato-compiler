@@ -62,22 +62,16 @@ exports.CLASS_DEF = () => {
                 if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
                     INDEX++
                     if (this.INHERIT_ST()) {
-                        if (GlobalTokensObjArr[INDEX].classPart === '(') {
+                        while (GlobalTokensObjArr[INDEX].classPart === '\n') {
                             INDEX++;
-                            if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                        }
+                        if (GlobalTokensObjArr[INDEX].classPart === '{') {
+                            INDEX++;
+                            while (GlobalTokensObjArr[INDEX].classPart === '\n') {
                                 INDEX++;
-                                while (GlobalTokensObjArr[INDEX].classPart === '\n') {
-                                    INDEX++;
-                                }
-                                if (GlobalTokensObjArr[INDEX].classPart === '{') {
-                                    INDEX++;
-                                    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
-                                        INDEX++;
-                                    }
-                                    if (this.BODY()) {
-                                        return true
-                                    }
-                                }
+                            }
+                            if (this.BODY()) {
+                                return true
                             }
                         }
                     }
@@ -119,7 +113,7 @@ exports.INHERIT_ST = () => {
                 return true
             }
         }
-    } else if (GlobalTokensObjArr[INDEX].classPart === '(')
+    } else if (GlobalTokensObjArr[INDEX].classPart === '{')
         return true
     else
         return false
