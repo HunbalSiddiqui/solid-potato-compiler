@@ -13,7 +13,10 @@ exports.syntaxFn = (tokensObjArr) => {
 // Body 
 exports.BODY = () => {
     // console.log(GlobalTokensObjArr[INDEX].classPart === '\n')
-    if (GlobalTokensObjArr[INDEX].classPart === 'EndMarker' ||GlobalTokensObjArr[INDEX].classPart === '\n')
+    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+        INDEX++;
+    }
+    if (GlobalTokensObjArr[INDEX].classPart === 'EndMarker')
         return true
     else if (this.MST()) {
         return true
@@ -24,21 +27,18 @@ exports.BODY = () => {
 }
 // Multiline statement
 exports.MST = () => {
-    if (this.SST())
-    {
-        if(this.MST())
-        {
+    if (this.SST()) {
+        if (this.MST()) {
             return true
         }
-    }
-    else if (GlobalTokensObjArr[INDEX].classPart === 'return' ||
+    } else if (GlobalTokensObjArr[INDEX].classPart === 'return' ||
         GlobalTokensObjArr[INDEX].classPart === 'break' ||
         GlobalTokensObjArr[INDEX].classPart === 'else' ||
-        GlobalTokensObjArr[INDEX].classPart === 'EndMarker'||
-        GlobalTokensObjArr[INDEX].classPart === 'Identifier'||
-        GlobalTokensObjArr[INDEX].classPart === 'if'||
-        GlobalTokensObjArr[INDEX].classPart === 'for'||
-        GlobalTokensObjArr[INDEX].classPart === 'DataType'||
+        GlobalTokensObjArr[INDEX].classPart === 'EndMarker' ||
+        GlobalTokensObjArr[INDEX].classPart === 'Identifier' ||
+        GlobalTokensObjArr[INDEX].classPart === 'if' ||
+        GlobalTokensObjArr[INDEX].classPart === 'for' ||
+        GlobalTokensObjArr[INDEX].classPart === 'DataType' ||
         GlobalTokensObjArr[INDEX].classPart === '}') {
         INDEX++;
         return true
@@ -108,14 +108,14 @@ exports.OELSE = () => {
                 INDEX++;
             }
             if (this.BODY()) {
-                if (GlobalTokensObjArr[INDEX].classPart === '}') {
+                INDEX++;
+                while (GlobalTokensObjArr[INDEX].classPart === '\n') {
                     INDEX++;
-                    return true
                 }
+                return true
             }
         }
-    }
-    else 
+    } else
         return true
 }
 

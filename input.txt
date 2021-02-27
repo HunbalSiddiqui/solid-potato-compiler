@@ -8,3 +8,8 @@ else
     int xyz = 3
     int abc = 3
 }
+if(a>4)
+{
+int a = 5 
+string ab,cf
+}
