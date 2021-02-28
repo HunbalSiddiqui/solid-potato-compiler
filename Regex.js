@@ -125,6 +125,10 @@ exports.keywordDictionary = [{
         class: "callFn",
         word: 'callFn'
     },
+    {
+        class: "callObj",
+        word: 'callObj'
+    },
 ]
 
 exports.operatorDictionary = [{

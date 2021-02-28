@@ -48,7 +48,7 @@ exports.MST = () => {
 }
 // Singleline statement
 exports.SST = () => {
-    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.OBJECT_DEC() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST() || this.FUNCTION_CALLING())
+    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.OBJECT_DEC() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST() || this.FUNCTION_CALLING() || this.OBJECT_CALLING())
         return true
     return false
 }
@@ -639,4 +639,37 @@ exports.FUNCTION_CALLING = () => {
         }
     }
 
+}
+
+exports.OBJECT_CALLING = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'callObj') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+            INDEX++;
+            if (GlobalTokensObjArr[INDEX].classPart === '.') {
+                INDEX++;
+                if (this.OBJECT_CALLING_UTIL()) {
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
+exports.OBJECT_CALLING_UTIL = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+        INDEX++;
+        if(GlobalTokensObjArr[INDEX].classPart === '.')
+        {
+            INDEX++
+            if (this.OBJECT_CALLING_UTIL()) {
+                return true
+            }
+        }
+        else 
+        return true
+    }
+    else 
+        return false
 }
