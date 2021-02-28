@@ -22,4 +22,9 @@ public static class classA extends classB
     while(a>=3){
         double abc = 3
     }
+
+    do{
+        double abc = 4
+    }
+    while(a<=3)
 }

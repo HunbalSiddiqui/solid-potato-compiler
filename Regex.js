@@ -78,6 +78,10 @@ exports.keywordDictionary = [{
         word: 'new'
     },
     {
+        class: "do",
+        word: 'do'
+    },
+    {
         class: "extends",
         word: 'extends'
     },
@@ -181,7 +185,7 @@ exports.operatorDictionary = [{
     },
     {
         class: "Relational Operator",
-        word: '=<'
+        word: '<='
     },
     {
         class: "Relational Operator",

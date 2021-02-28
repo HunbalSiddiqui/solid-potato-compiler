@@ -48,7 +48,7 @@ exports.MST = () => {
 }
 // Singleline statement
 exports.SST = () => {
-    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.FOR_ST() || this.DEC() || this.ASSIGN_ST())
+    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.FOR_ST() || this.DO_WHILE() || this.DEC() || this.ASSIGN_ST())
         return true
     return false
 }
@@ -215,6 +215,7 @@ exports.COND = () => {
 
 exports.BOOL = () => {
     if (GlobalTokensObjArr[INDEX].classPart === 'true' || GlobalTokensObjArr[INDEX].classPart === 'false') {
+        console.log("BOOL")
         INDEX++;
         return true
     } else
@@ -222,8 +223,11 @@ exports.BOOL = () => {
 }
 
 exports.ID_CONST = () => {
-    if (GlobalTokensObjArr[INDEX].classPart === 'Identifier' || this.CONST()) {
+    if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
         INDEX++
+        return true
+    } else if (this.CONST()) {
+        INDEX++;
         return true
     }
     return false
@@ -412,6 +416,45 @@ exports.C3 = () => {
         }
     } else
         return false
+}
+
+exports.DO_WHILE = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'do') {
+        INDEX++;
+        while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+            INDEX++;
+        }
+        if (GlobalTokensObjArr[INDEX].classPart === '{') {
+            INDEX++;
+            while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                INDEX++;
+            }
+            if (this.BODY()) {
+                while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                    INDEX++;
+                }
+                if (GlobalTokensObjArr[INDEX].classPart === 'while') {
+                    INDEX++;
+                    if (GlobalTokensObjArr[INDEX].classPart === '(') {
+                        INDEX++;
+                        if (this.COND()) {
+                            if (this.ROP()) {
+                                if (this.COND()) {
+                                    if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                                        INDEX++;
+                                        while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                            INDEX++;
+                                        }
+                                        return true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 exports.DEC = () => {
