@@ -1,5 +1,19 @@
-public static void function (a, anothjer, 4) 
+public static class classA extends classB
 {
-    int ab += 3
-    return j
+    var abc = 3
+
+    if(a>4)
+    {
+        int abc =3
+    }
+    else {
+        string s = "1234"
+    }
+
+    fn private static void abc()
+    {
+
+    }
+
+    for(int i=0,i<10;i++)
 }
