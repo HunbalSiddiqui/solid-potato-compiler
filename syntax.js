@@ -48,7 +48,7 @@ exports.MST = () => {
 }
 // Singleline statement
 exports.SST = () => {
-    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST())
+    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.OBJECT_DEC() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST())
         return true
     return false
 }
@@ -281,7 +281,7 @@ exports.PARAMS = () => {
             return true
             // }
         }
-    } else if (GlobalTokensObjArr[INDEX].classPart === ')')
+    } else if (GlobalTokensObjArr[INDEX].classPart === ')' && GlobalTokensObjArr[INDEX-1].classPart !==',')
         return true
     else
         return false
@@ -509,7 +509,6 @@ exports.CASE_LIST = () => {
                     INDEX++;
                 }
                 if (this.BODY()) {
-                    console.log(GlobalTokensObjArr[INDEX].classPart)
                     while (GlobalTokensObjArr[INDEX].classPart === '\n') {
                         INDEX++;
                     }
@@ -566,7 +565,6 @@ exports.ASSIGN_ST = () => {
         INDEX++;
         if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
             INDEX++;
-
             if (GlobalTokensObjArr[INDEX].classPart === 'Assignment Operator') {
                 INDEX++;
                 if (this.COI()) {
@@ -591,4 +589,32 @@ exports.CONST = () => {
         return true
     else
         return false
+}
+
+
+exports.OBJECT_DEC = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+            INDEX++;
+            if (GlobalTokensObjArr[INDEX].classPart === 'Assignment Operator') {
+                INDEX++;
+                if (GlobalTokensObjArr[INDEX].classPart === 'new') {
+                    INDEX++;
+                    if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+                        INDEX++;
+                        if (GlobalTokensObjArr[INDEX].classPart === '(') {
+                            INDEX++;
+                            if (this.PARAMS()) {
+                                if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                                    INDEX++;
+                                    return true
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

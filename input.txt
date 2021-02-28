@@ -38,4 +38,6 @@ public static class classA extends classB
             break
         default 453        
     }
+
+    classA className = new ClassA(a,44,3,av, "asd") 
 }
