@@ -122,9 +122,9 @@ exports.keywordDictionary = [{
         word: 'break'
     },
     {
-        class: "Continue",
-        word: 'continue'
-    }
+        class: "callFn",
+        word: 'callFn'
+    },
 ]
 
 exports.operatorDictionary = [{

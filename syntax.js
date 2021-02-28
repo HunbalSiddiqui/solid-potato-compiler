@@ -48,7 +48,7 @@ exports.MST = () => {
 }
 // Singleline statement
 exports.SST = () => {
-    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.OBJECT_DEC() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST())
+    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.OBJECT_DEC() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST() || this.FUNCTION_CALLING())
         return true
     return false
 }
@@ -281,7 +281,7 @@ exports.PARAMS = () => {
             return true
             // }
         }
-    } else if (GlobalTokensObjArr[INDEX].classPart === ')' && GlobalTokensObjArr[INDEX-1].classPart !==',')
+    } else if (GlobalTokensObjArr[INDEX].classPart === ')' && GlobalTokensObjArr[INDEX - 1].classPart !== ',')
         return true
     else
         return false
@@ -617,4 +617,26 @@ exports.OBJECT_DEC = () => {
             }
         }
     }
+}
+
+exports.FUNCTION_CALLING = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'callFn') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+            INDEX++;
+            if (GlobalTokensObjArr[INDEX].classPart === '(') {
+                INDEX++;
+                if (this.PARAMS()) {
+                    if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                        INDEX++;
+                        while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                            INDEX++;
+                        }
+                        return true
+                    }
+                }
+            }
+        }
+    }
+
 }

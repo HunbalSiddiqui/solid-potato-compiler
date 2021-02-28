@@ -40,4 +40,6 @@ public static class classA extends classB
     }
 
     classA className = new ClassA(a,44,3,av, "asd") 
+
+    callFn abc(a,c)
 }
