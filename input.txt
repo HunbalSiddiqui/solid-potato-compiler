@@ -18,4 +18,8 @@ public static class classA extends classB
     {
         double abc = 3
     }
+
+    while(a>=3){
+        double abc = 3
+    }
 }

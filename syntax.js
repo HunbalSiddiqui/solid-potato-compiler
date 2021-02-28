@@ -305,7 +305,37 @@ exports.RETURN_TYPE = () => {
 }
 
 exports.WHILE_ST = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'while') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === '(') {
+            INDEX++;
+            if (this.COND()) {
+                if (this.ROP()) {
+                    if (this.COND()) {
+                        if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                            INDEX++;
+                            while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                INDEX++;
+                            }
+                            if (GlobalTokensObjArr[INDEX].classPart === '{') {
+                                INDEX++;
+                                while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                    INDEX++;
+                                }
+                                if (this.BODY()) {
+                                    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                        INDEX++;
+                                    }
+                                    return true
+                                }
+                            }
+                        }
 
+                    }
+                }
+            }
+        }
+    }
 }
 
 exports.FOR_ST = () => {
