@@ -26,24 +26,23 @@ exports.BODY = () => {
 }
 // Multiline statement
 exports.MST = () => {
-    // console.log("Current token in MST FN",GlobalTokensObjArr[INDEX])
     if (this.SST()) {
-        // console.log("Current token in MST FN in SST",GlobalTokensObjArr[INDEX])
         if (this.MST()) {
             return true
         }
     } else if (GlobalTokensObjArr[INDEX].classPart === 'return' ||
         GlobalTokensObjArr[INDEX].classPart === 'break' ||
         // GlobalTokensObjArr[INDEX].classPart === 'else' ||
-        GlobalTokensObjArr[INDEX].classPart === 'EndMarker' ||
+        // GlobalTokensObjArr[INDEX].classPart === 'EndMarker' ||
         // GlobalTokensObjArr[INDEX].classPart === 'Identifier' ||
-        GlobalTokensObjArr[INDEX].classPart === 'if' ||
-        GlobalTokensObjArr[INDEX].classPart === 'for' ||
-        GlobalTokensObjArr[INDEX].classPart === 'DataType' ||
+        // GlobalTokensObjArr[INDEX].classPart === 'if' ||
+        // GlobalTokensObjArr[INDEX].classPart === 'for' ||
+        // GlobalTokensObjArr[INDEX].classPart === 'DataType' ||
         GlobalTokensObjArr[INDEX].classPart === '}') {
         INDEX++;
         return true
     } else {
+        console.log("NOT FOUND", GlobalTokensObjArr[INDEX].value)
         return false
     }
 }
@@ -207,7 +206,9 @@ exports.ROP = () => {
 }
 
 exports.COND = () => {
-    if (this.BOOL() || this.ID_CONST())
+    if (this.BOOL())
+        return true
+    else if (this.ID_CONST())
         return true
     return false
 }
@@ -240,7 +241,6 @@ exports.FN_ST = () => {
                         if (GlobalTokensObjArr[INDEX].classPart === '(') {
                             INDEX++;
                             if (this.PARAMS()) {
-                                console.log(GlobalTokensObjArr[INDEX].classPart === ")")
                                 if (GlobalTokensObjArr[INDEX].classPart === ')') {
                                     INDEX++;
                                     while (GlobalTokensObjArr[INDEX].classPart === '\n') {
@@ -297,8 +297,7 @@ exports.MULTI_PARAMS = () => {
 }
 
 exports.RETURN_TYPE = () => {
-    console.log("In return type", GlobalTokensObjArr[INDEX].value, GlobalTokensObjArr[INDEX].classPart === 'void')
-    if (GlobalTokensObjArr[INDEX].classPart === 'void' || GlobalTokensObjArr[INDEX].classPart === 'DataType') {
+    if (GlobalTokensObjArr[INDEX].classPart === 'void' || GlobalTokensObjArr[INDEX].classPart === 'DataType' || GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
         INDEX++;
         return true
     } else
@@ -310,49 +309,60 @@ exports.WHILE_ST = () => {
 }
 
 exports.FOR_ST = () => {
-    // if(GlobalTokensObjArr[INDEX].classPart === 'for')
-    // {
-    //     INDEX++;
-    //     if(GlobalTokensObjArr[INDEX].classPart === '(')
-    //     {
-    //         INDEX++;
-    //         if(this.C1())
-    //         {
-    //             if(GlobalTokensObjArr[INDEX].classPart === ',')
-    //             {
-    //                 INDEX++;
-    //                 if(this.C2())
-    //                 {
-    //                     if(GlobalTokensObjArr[INDEX].classPart === ',')
-    //                     {
-    //                         INDEX++;
-    //                         if(this.C3())
-    //                         {
-    //                             if(GlobalTokensObjArr[INDEX].classPart === ')')
-    //                             {
-    //                                 INDEX++;
-    //                                 return true
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    if (GlobalTokensObjArr[INDEX].classPart === 'for') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === '(') {
+            INDEX++;
+            if (this.C1()) {
+                if (GlobalTokensObjArr[INDEX].classPart === ',') {
+                    INDEX++;
+                    if (this.C2()) {
+                        if (GlobalTokensObjArr[INDEX].classPart === ',') {
+                            INDEX++;
+                            if (this.C3()) {
+                                if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                                    INDEX++;
+                                    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                        INDEX++;
+                                    }
+                                    if (GlobalTokensObjArr[INDEX].classPart === '{') {
+                                        INDEX++;
+                                        while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                            INDEX++;
+                                        }
+                                        if (this.BODY()) {
+                                            while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                                INDEX++;
+                                            }
+                                            return true
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 exports.C1 = () => {
-    if (this.DEC() || this.ASSIGN_ST()) {
+    if (this.ASSIGN_ST()) {
         return true
+    } else if (this.DEC()) {
+        return ture
     }
     return false
 }
 
 exports.C2 = () => {
     if (this.COND()) {
-        INDEX++;
-        return true
+        if (this.ROP()) {
+            if (this.COND()) {
+                return true
+            }
+        }
     }
     return false
 }
@@ -412,7 +422,6 @@ exports.LIST = () => {
 
 exports.ASSIGN_ST = () => {
     if (GlobalTokensObjArr[INDEX].classPart === 'DataType') {
-        console.log("Assign Statement running")
         INDEX++;
         if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
             INDEX++;

@@ -12,8 +12,10 @@ public static class classA extends classB
 
     fn private static void abc()
     {
-
+        return abc
     }
-
-    for(int i=0,i<10;i++)
+    for(int i=0,a>4,++i)
+    {
+        double abc = 3
+    }
 }
