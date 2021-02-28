@@ -27,4 +27,15 @@ public static class classA extends classB
         double abc = 4
     }
     while(a<=3)
+
+    switch(ab)
+    {
+        case cd:
+            var b = "345"
+            break
+        case xyx:
+            var v = "532"    
+            break
+        default 453        
+    }
 }

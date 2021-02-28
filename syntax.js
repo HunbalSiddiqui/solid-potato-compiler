@@ -48,7 +48,7 @@ exports.MST = () => {
 }
 // Singleline statement
 exports.SST = () => {
-    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.FOR_ST() || this.DO_WHILE() || this.DEC() || this.ASSIGN_ST())
+    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST())
         return true
     return false
 }
@@ -215,7 +215,6 @@ exports.COND = () => {
 
 exports.BOOL = () => {
     if (GlobalTokensObjArr[INDEX].classPart === 'true' || GlobalTokensObjArr[INDEX].classPart === 'false') {
-        console.log("BOOL")
         INDEX++;
         return true
     } else
@@ -455,6 +454,75 @@ exports.DO_WHILE = () => {
             }
         }
     }
+}
+
+exports.SWITCH = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === 'switch') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === '(') {
+            INDEX++;
+            if (this.COND()) {
+                if (GlobalTokensObjArr[INDEX].classPart === ')') {
+                    INDEX++;
+                    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                        INDEX++;
+                    }
+                    if (GlobalTokensObjArr[INDEX].classPart === '{') {
+                        INDEX++;
+                        while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                            INDEX++;
+                        }
+                        if (this.CASE_LIST()) {
+                            while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                INDEX++;
+                            }
+                            if (GlobalTokensObjArr[INDEX].classPart === 'default') {
+                                INDEX++;
+                                if (this.COND()) {
+                                    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                                        INDEX++;
+                                    }
+                                    if (GlobalTokensObjArr[INDEX].classPart === '}') {
+                                        INDEX++;
+                                        return true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+exports.CASE_LIST = () => {
+    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+        INDEX++;
+    }
+    if (GlobalTokensObjArr[INDEX].classPart === 'case') {
+        INDEX++;
+        if (this.COND()) {
+            if (GlobalTokensObjArr[INDEX].classPart === ':') {
+                INDEX++;
+                while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                    INDEX++;
+                }
+                if (this.BODY()) {
+                    console.log(GlobalTokensObjArr[INDEX].classPart)
+                    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                        INDEX++;
+                    }
+                    if (this.CASE_LIST()) {
+                        return true
+                    }
+                }
+            }
+        }
+    } else if (GlobalTokensObjArr[INDEX].classPart === 'default')
+        return true
+    else
+        return false
 }
 
 exports.DEC = () => {

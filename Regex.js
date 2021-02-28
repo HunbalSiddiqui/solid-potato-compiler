@@ -114,11 +114,11 @@ exports.keywordDictionary = [{
         word: 'case'
     },
     {
-        class: "Default",
+        class: "default",
         word: 'default'
     },
     {
-        class: "Break",
+        class: "break",
         word: 'break'
     },
     {
@@ -242,30 +242,30 @@ exports.punctuatorDictionary = [{
         word: '['
     },
     {
-        class: "Punctuator",
+        class: ":",
         word: ':'
     },
 
     {
-        class: "Punctuator",
+        class: "@",
         word: '@'
     },
 
     {
-        class: "Punctuator",
+        class: "^",
         word: '^'
     },
 
     {
-        class: "Punctuator",
+        class: "#",
         word: '#'
     },
     {
-        class: "Punctuator",
+        class: "_",
         word: '_'
     },
     {
-        class: "Dot",
+        class: ".",
         word: '.'
     },
     {
