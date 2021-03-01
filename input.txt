@@ -4,7 +4,7 @@ public static class classA extends classB
 
     if(a>4)
     {
-        int abc =3
+        int abc = 3
     }
     else {
         string s = "1234"

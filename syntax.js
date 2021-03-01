@@ -21,7 +21,7 @@ exports.BODY = () => {
         return true
     } else {
         // console.log("Error in line no", GlobalTokensObjArr[INDEX].LineNo)
-        console.log("Error in line no", GlobalTokensObjArr[INDEX])
+        console.log("Error in line no", GlobalTokensObjArr[INDEX].LineNo)
         // console.log("Error in line no", GlobalTokensObjArr[INDEX].LineNo)
         return false
     }

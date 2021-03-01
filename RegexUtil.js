@@ -22,7 +22,7 @@ exports.isOperator = (token,lineNo) => {
             return {
                 classPart : operatorDictionary[index].class,
                 value : operatorDictionary[index].word,
-                lineNo : lineNo
+                LineNo : lineNo
             }
         }  
     }
@@ -37,7 +37,7 @@ exports.isPunctuator = (token,lineNo) => {
             return {
                 classPart : punctuatorDictionary[index].class,
                 value : punctuatorDictionary[index].word,
-                lineNo : lineNo
+                LineNo : lineNo
             }
         }  
     }
