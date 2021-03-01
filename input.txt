@@ -44,4 +44,12 @@ public static class classA extends classB
     callFn abc(a,c)
 
     callObj a.b.v
+
+    array arr = []
+    
+    array arr = [[],[]]
+
+    let a = 4
+
+    const a = 4
 }

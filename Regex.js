@@ -90,6 +90,14 @@ exports.keywordDictionary = [{
         word: 'var'
     },
     {
+        class: "DataType",
+        word: 'let'
+    },
+    {
+        class: "DataType",
+        word: 'const'
+    },
+    {
         class: "if",
         word: 'if'
     },
@@ -128,6 +136,10 @@ exports.keywordDictionary = [{
     {
         class: "callObj",
         word: 'callObj'
+    },
+    {
+        class: "array",
+        word: 'array'
     },
 ]
 

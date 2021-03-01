@@ -20,7 +20,9 @@ exports.BODY = () => {
     else if (this.MST()) {
         return true
     } else {
-        console.log("Error in object", GlobalTokensObjArr[INDEX])
+        // console.log("Error in line no", GlobalTokensObjArr[INDEX].LineNo)
+        console.log("Error in line no", GlobalTokensObjArr[INDEX])
+        // console.log("Error in line no", GlobalTokensObjArr[INDEX].LineNo)
         return false
     }
 }
@@ -48,7 +50,7 @@ exports.MST = () => {
 }
 // Singleline statement
 exports.SST = () => {
-    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.OBJECT_DEC() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST() || this.FUNCTION_CALLING() || this.OBJECT_CALLING())
+    if (this.IF_OELSE() || this.CLASS_DEF() || this.FN_ST() || this.WHILE_ST() || this.OBJECT_DEC() || this.FOR_ST() || this.DO_WHILE() || this.SWITCH() || this.DEC() || this.ASSIGN_ST() || this.FUNCTION_CALLING() || this.OBJECT_CALLING() || this.ARRAY_DEC())
         return true
     return false
 }
@@ -660,16 +662,77 @@ exports.OBJECT_CALLING = () => {
 exports.OBJECT_CALLING_UTIL = () => {
     if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
         INDEX++;
-        if(GlobalTokensObjArr[INDEX].classPart === '.')
-        {
+        if (GlobalTokensObjArr[INDEX].classPart === '.') {
             INDEX++
             if (this.OBJECT_CALLING_UTIL()) {
                 return true
             }
+        } else
+            return true
+    } else
+        return false
+}
+
+exports.ARRAY_DEC = () => {
+    while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+        INDEX++;
+    }
+    if (GlobalTokensObjArr[INDEX].classPart === 'array') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === 'Identifier') {
+            INDEX++;
+            if (GlobalTokensObjArr[INDEX].classPart === 'Assignment Operator') {
+                INDEX++;
+                if (this.ARRAY_TYPE()) {
+                    if (GlobalTokensObjArr[INDEX].classPart === ']') {
+                        INDEX++;
+                        while (GlobalTokensObjArr[INDEX].classPart === '\n') {
+                            INDEX++;
+                        }
+                        return true
+                    }
+                }
+            }
         }
-        else 
+    } else
+        false
+}
+
+exports.ARRAY_TYPE = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === '[') {
+        INDEX++;
+        if (this.ARRAY_DIMENSION()) {
+            return true
+        }
+    }
+    return false
+}
+
+exports.ARRAY_DIMENSION = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === '[') {
+        INDEX++;
+        if (GlobalTokensObjArr[INDEX].classPart === ']') {
+            INDEX++;
+            if (this.ARRAY_LIST()) {
+                if (this.ARRAY_DIMENSION()) {
+                    return true
+                }
+            }
+        }
+    } else if (GlobalTokensObjArr[INDEX].classPart === ']') {
         return true
     }
-    else 
-        return false
+    return false
+}
+
+exports.ARRAY_LIST = () => {
+    if (GlobalTokensObjArr[INDEX].classPart === ',') {
+        INDEX++;
+        return true
+    } 
+    else if(GlobalTokensObjArr[INDEX].classPart === ']') 
+    {
+        return true
+    }
+    return false
 }
